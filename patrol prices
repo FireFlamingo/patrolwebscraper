@@ -1,0 +1,27 @@
+import time
+import requests
+from bs4 import BeautifulSoup
+
+
+URL = 'https://www.mypetrolprice.com/7/Petrol-price-in-Pune'
+
+headers ={
+    "User-Agent": 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:89.0) Gecko/20100101 Firefox/89.0'}
+
+page = requests.get(URL, headers=headers)
+soup = BeautifulSoup(page.content, 'html.parser')
+title = soup.find(id="BC_lblCurrent").get_text()
+new1 = str(title).strip()
+print("Message sent now")
+def discord_msg():
+    payload = {'content': "Today\'s" + new1}
+
+    header = {
+        'authorization': 'NzcyMTUwOTE3NjIxMjE5MzI4.YMXXQw.Mc9HUrAIJ8TjeZAV-rjEHQQ85kI'
+    }
+    requests.post("https://discord.com/api/v9/channels/856437074554388510/messages",
+                  data=payload, headers=header)
+
+while True:
+    time.sleep(86350)
+    discord_msg()
